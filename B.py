@@ -1,9 +1,9 @@
 """wg forge task-B"""
 #!/usr/bin/python2
+import difflib
+import math
 import re
 import sys
-import math
-import difflib
 
 def compute_size_for_devide(line):
     """Round half size list for will devide and return zero, if < 1"""
@@ -28,7 +28,7 @@ def comparator(first_line, second_line, state=dict(coincidences=[])):
 
     if not state['coincidences']:
         if len(differ_indexer(differ_wrapper())) != 1:
-            print 0
+            print(0)
             sys.exit(0)
         else:
             find_limits()
@@ -46,13 +46,16 @@ def devide_strings_on_parts(first_line, second_line, devide_number):
     comparator(first_line, second_line)
 
 def differ_wrapper():
+    """differ wrapper for string"""
     differ = difflib.Differ()
     return list(differ.compare(STRING_WITH_MISTAKE, STRING_RIGHT))
 
 def differ_indexer(result):
-    return [ i for i, word in enumerate(result) if re.search('-', word) ]
+    """indexer differentions with string"""
+    return [i for i, word in enumerate(result) if re.search('-', word)]
 
 def find_limits():
+    """find limits in repeat symbols and return indexes"""
     result = differ_wrapper()
     index = differ_indexer(result)[0]
     result[index] = result[index].replace('-', ' ')
@@ -63,13 +66,13 @@ def find_limits():
     if right is None:
         right = index
     if left == right:
-        print 1
+        print(1)
         print(str(index + 1))
         exit(0)
     else:
         result_list = range(left + 1, right + 2)
         print(len(result_list))
-        print(' '.join(map(str,result_list)))
+        print(' '.join(map(str, result_list)))
         exit(0)
 
 def limit(line, index, offset, state):
@@ -81,7 +84,7 @@ def limit(line, index, offset, state):
     if line[index] == line[next_index]:
         state = next_index
         state = limit(line, next_index, offset, state)
-    
+
     return state
 
 def main():
@@ -93,6 +96,14 @@ def main():
     comparator(mistake, right)
 
 if __name__ == "__main__":
-    STRING_WITH_MISTAKE = raw_input()
-    STRING_RIGHT = raw_input()
+    FIRST_STRING = raw_input()
+    SECOND_STRING = raw_input()
+
+    if len(FIRST_STRING) > len(SECOND_STRING):
+        STRING_WITH_MISTAKE = FIRST_STRING
+        STRING_RIGHT = SECOND_STRING
+    else:
+        STRING_WITH_MISTAKE = SECOND_STRING
+        STRING_RIGHT = FIRST_STRING
+
     main()
