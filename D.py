@@ -1,5 +1,5 @@
 """wg forge task-D"""
-#!/usr/bin/python2
+# !/usr/bin/python2
 import sys
 
 from copy import copy
@@ -7,6 +7,7 @@ from copy import copy
 
 class Vertex:
     """Class for create vertex graph obj"""
+
     def __init__(self, node):
         self.id = node
         self.connections = {}
@@ -30,6 +31,7 @@ class Vertex:
 
 class Graph:
     """Graph entity"""
+
     def __init__(self):
         self.vert_dict = {}
         self.num_vertices = 0
@@ -83,11 +85,13 @@ def fill_graph(graph, index, input_vertex_node):
 
         next_index += 1
 
+
 def find_shift_count(graph, input_vertex_node, weights):
     """Find all solustions with different shift distribution"""
     vertex_connections = graph.get_vertex(input_vertex_node).connections
     if len(vertex_connections) == 1:
-        if (sum(weights[i] for i in range(0, len(weights)) if not i % 2) == HOURS_OF_SHIFT and sum(weights[i] for i in range(0, len(weights)) if i % 2 == 1) == HOURS_OF_SHIFT):
+        if (sum(weights[i] for i in range(0, len(weights)) if not i % 2) == HOURS_OF_SHIFT and sum(
+                weights[i] for i in range(0, len(weights)) if i % 2 == 1) == HOURS_OF_SHIFT):
             RESULT.append(len(weights) - 1)
             if 3 in RESULT:
                 print('Yes')
